@@ -1,0 +1,104 @@
+/* Goal to make it better for board players:  
+I am going to make it so that everytime the snake hits the wall, it will not 
+go off the screen and I will put insperational quotes in everytime it hits the wall because this game is for people that are board.  
+I will also change the color of the snake everytime it hits the wall so that it is more appealing to the eyes.  Also I will put an image of something instead of a boring 
+green square.  I also added points to my game and also everytime you hit a wall it subtracts by one point.  
+*/
+var SNAKE_WIDTH = 40;
+var SNAKE_HEIGHT = 40;
+var SNAKE_COLOR = Color.green;
+var dx = 2;
+var dy = 2;
+var snake;
+var bounces;
+var MAX_BOUNCES = 20;
+var background;
+var txtPoints = 0;
+
+// Constants to represent the directions
+var EAST = 0;
+var SOUTH = 1;
+var WEST = 2;
+var NORTH = 3;
+
+
+function start(){
+	snake = new WebImage("https://codehs.com/uploads/e05d702cc01b858c57ae8598ae6f1a34");
+	snake.setSize(75, 50);
+    snake.setPosition(getWidth()/2-snake.width/2,snake.height);
+    add(snake);
+	
+	setTimer(snakeMovement,20);
+	keyDownMethod(keyDown);
+	Graphics();
+	Points();
+}
+function Graphics(){
+    var SimranPunj = new Text("Welcome to Simran's game","30 pt Ariel");                         
+    SimranPunj.setPosition(getWidth()/4-SimranPunj.width/4,getHeight()/2); 
+    SimranPunj.setColor(Color.RED);                                                 
+    add(SimranPunj);
+}
+function Points(){
+    txtPoints = new Text("Points: 1"+txtPoints, "20pt Sans Serif");
+    txtPoints.setPosition(getWidth()/2-txtPoints.width/2,snake.height);
+    txtPoints.setColor(Color.blue);
+    add(txtPoints);
+}
+function snakeMovement(){
+    checkWalls();
+    snake.move(dx,dy);
+}
+function keyDown(e){
+    if(e.keyCode == Keyboard.UP){
+        dx = -4;
+        dy = 0;
+    }
+    if(e.keyCode == Keyboard.RIGHT){
+        dx =  4;
+        dy =  0;
+    }
+    if(e.keyCode == Keyboard.LEFT){
+        dx = 0;
+        dy = 4;
+    }
+    if(e.keyCode == Keyboard.DOWN){
+        dx = -4; 
+        dy = 0;
+    }
+}
+function checkWalls(){
+    // Bounce off right wall
+	if(snake.getX() + snake.getWidth() > getWidth()){
+		dx = -dx;
+		bounces++;
+		txtPoints++;
+		println("You are amazing");
+		println("9 points");
+	}
+	
+	// Bounce off left wall
+	if(snake.getX() < 0){
+		dx = -dx;
+		bounces++;
+		txtPoints++;
+		println("You got this!");
+		println("8 points");
+	}
+	// Bounce off bottom wall
+	if(snake.getY() + snake.getHeight() > getHeight()){
+		dy = -dy;
+		bounces++;
+		txtPoints++;
+		println("You will ace finals");
+		println("7 points");
+	}
+	// Bounce off top wall
+	if(snake.getY() < 0){
+		dy = -dy;
+		txtPoints++;
+		bounces++;
+		println("Don't worry about life and play this game!");
+		println("6 points");
+	}
+}
